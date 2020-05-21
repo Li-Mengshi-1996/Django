@@ -19,6 +19,8 @@ class PostsView(ListView):
 
     # 相当于filter， 只返回特定的list
     def get_queryset(self):
+        if not self.request.user.is_authenticated:
+            return
         current_user = self.request.user
         following = set()
         for conn in UserConnection.objects.filter(creator=current_user).select_related('following'):
